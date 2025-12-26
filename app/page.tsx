@@ -1,4 +1,19 @@
-export default function Home() {
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+export default async function Home() {
+  const session = await auth();
+
+  console.log("Homepage - Session check:", {
+    hasSession: !!session,
+    user: session?.user?.email,
+  });
+
+  // Wenn bereits eingeloggt, zum Dashboard weiterleiten
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)]">
       <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-12 max-w-2xl w-full border border-secondary/20">
