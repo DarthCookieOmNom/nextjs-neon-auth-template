@@ -5,11 +5,6 @@ import { SignInButton } from "@/components/SignInButton";
 export default async function Home() {
   const session = await auth();
 
-  console.log("Homepage - Session check:", {
-    hasSession: !!session,
-    user: session?.user?.email,
-  });
-
   // Wenn bereits eingeloggt, zum Dashboard weiterleiten
   if (session?.user) {
     redirect("/dashboard");
