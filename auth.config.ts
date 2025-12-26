@@ -10,15 +10,23 @@ export const authConfig = {
   ],
   callbacks: {
     async signIn({ user }) {
-      const allowedEmail = process.env.ALLOWED_USER_EMAIL;
+      const allowedEmail = process.env.ALLOWED_USER_EMAIL?.trim().toLowerCase();
 
       if (!allowedEmail) {
         console.error("ALLOWED_USER_EMAIL is not set");
         return false;
       }
 
-      // Nur erlauben, wenn die E-Mail übereinstimmt
-      if (user.email === allowedEmail) {
+      const userEmail = user.email?.trim().toLowerCase();
+
+      console.log("Sign-in attempt:", {
+        userEmail,
+        allowedEmail,
+        match: userEmail === allowedEmail,
+      });
+
+      // Nur erlauben, wenn die E-Mail übereinstimmt (case-insensitive)
+      if (userEmail === allowedEmail) {
         return true;
       }
 
