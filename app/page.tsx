@@ -25,7 +25,7 @@ export default async function Home() {
         </p>
         <div className="flex justify-center">
           <a
-            href="/api/auth/signin"
+            href="/api/auth/signin/google"
             className="bg-secondary hover:bg-secondary-600 text-primary-900 font-bold py-3 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             Mit Google anmelden

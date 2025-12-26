@@ -80,7 +80,6 @@ export const authConfig = {
     },
   },
   pages: {
-    signIn: "/",
     error: "/auth/error",
   },
 } satisfies NextAuthConfig;
