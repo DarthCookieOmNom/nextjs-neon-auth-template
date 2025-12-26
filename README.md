@@ -1,56 +1,52 @@
-# Sports App
+# Next.js App Template mit Google OAuth & Neon
 
-Eine moderne Webanwendung für Sport-Management, gebaut mit Next.js 15, Neon Datenbank und NextAuth.js.
+Ein produktionsreifes Next.js 15 Template mit NextAuth.js v5, Neon PostgreSQL, Tailwind CSS 4 und Single-User Google OAuth Authentifizierung.
 
-## Features
+## ✨ Features
 
 - **Next.js 15** mit App Router und TypeScript
+- **NextAuth.js v5** (Beta) für sichere Authentifizierung
+- **Google OAuth** mit E-Mail-basierter Zugriffsbeschränkung
 - **Neon Serverless Postgres** Datenbank
-- **Tailwind CSS** mit modernem Navy-Blau/Gelb Design
-- **NextAuth.js v5** für Google OAuth Authentifizierung
-- **Zugriffsbeschränkung** - nur ein spezifischer User darf sich anmelden
 - **Prisma ORM** für Datenbank-Management
-- **Optimiert für Vercel** Deployment
+- **Tailwind CSS 4** mit anpassbarem Theme
+- **JWT Sessions** für schnelle, skalierbare Auth
+- **Vercel-optimiert** für einfaches Deployment
 
-## Design
+## 🎨 Design
 
-Die Anwendung verwendet ein modernes Farbschema:
-- **Primärfarbe**: Navy Blau (#001f3f)
-- **Sekundärfarbe**: Gold/Gelb (#FFD700)
-- Glassmorphism-Effekte und moderne UI-Komponenten
+- Anpassbares Farbschema (Standard: Navy-Blau & Gold)
+- Glassmorphism-Effekte
+- Responsive Layout
+- Dark Mode Support
 
-## Setup
+## 🚀 Quick Start
 
 ### 1. Repository klonen
 
 ```bash
-git clone https://github.com/DarthCookieOmNom/sports.git
-cd sports
-```
-
-### 2. Dependencies installieren
-
-```bash
+git clone <your-template-repo>
+cd <project-name>
 npm install
 ```
 
-### 3. Neon Datenbank erstellen
+### 2. Neon Datenbank erstellen
 
-1. Gehen Sie zu [Neon Console](https://console.neon.tech/)
+1. Erstellen Sie ein kostenloses Konto auf [Neon](https://neon.tech)
 2. Erstellen Sie ein neues Projekt
 3. Kopieren Sie die Connection String
 
-### 4. Google OAuth einrichten
+### 3. Google OAuth einrichten
 
 1. Gehen Sie zur [Google Cloud Console](https://console.cloud.google.com/)
-2. Erstellen Sie ein neues Projekt oder wählen Sie ein bestehendes
+2. Erstellen Sie ein neues Projekt
 3. Aktivieren Sie die Google+ API
 4. Erstellen Sie OAuth 2.0 Credentials:
-   - Authorized JavaScript origins: `http://localhost:3000`
-   - Authorized redirect URIs: `http://localhost:3000/api/auth/callback/google`
+   - **Authorized JavaScript origins**: `http://localhost:3000`
+   - **Authorized redirect URIs**: `http://localhost:3000/api/auth/callback/google`
 5. Kopieren Sie Client ID und Client Secret
 
-### 5. Environment Variables einrichten
+### 4. Environment Variables
 
 Kopieren Sie `.env.local.example` zu `.env.local`:
 
@@ -61,53 +57,49 @@ cp .env.local.example .env.local
 Füllen Sie die Werte aus:
 
 ```env
-# Database
+# Neon Database
 DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
 
 # NextAuth.js
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-here  # Generieren mit: openssl rand -base64 32
+NEXTAUTH_SECRET=  # Generieren mit: openssl rand -base64 32
 
 # Google OAuth
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CLIENT_ID=your-client-id
+GOOGLE_CLIENT_SECRET=your-client-secret
 
 # Nur dieser User darf sich anmelden
 ALLOWED_USER_EMAIL=your-email@gmail.com
 ```
 
-### 6. Datenbank initialisieren
+### 5. Datenbank initialisieren
 
 ```bash
 npm run db:push
 ```
 
-### 7. Entwicklungsserver starten
+### 6. Entwicklungsserver starten
 
 ```bash
 npm run dev
 ```
 
-Öffnen Sie [http://localhost:3000](http://localhost:3000) in Ihrem Browser.
+Öffnen Sie [http://localhost:3000](http://localhost:3000)
 
-## Vercel Deployment
+## 📦 Vercel Deployment
 
 ### 1. Projekt zu Vercel deployen
 
 ```bash
-# Vercel CLI installieren (falls noch nicht installiert)
-npm i -g vercel
-
-# Deployen
 vercel
 ```
 
-### 2. Environment Variables in Vercel setzen
+### 2. Environment Variables setzen
 
-Gehen Sie zu Ihrem Projekt in der Vercel Dashboard und fügen Sie die Environment Variables hinzu:
+In der Vercel Dashboard unter Settings → Environment Variables:
 
 - `DATABASE_URL`
-- `NEXTAUTH_URL` (Ihre Produktions-URL, z.B. https://sports.vercel.app)
+- `NEXTAUTH_URL` (z.B. `https://your-app.vercel.app`)
 - `NEXTAUTH_SECRET`
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
@@ -115,69 +107,113 @@ Gehen Sie zu Ihrem Projekt in der Vercel Dashboard und fügen Sie die Environmen
 
 ### 3. Google OAuth für Produktion aktualisieren
 
-Fügen Sie in der Google Cloud Console die Produktions-URLs hinzu:
-- Authorized JavaScript origins: `https://your-domain.vercel.app`
-- Authorized redirect URIs: `https://your-domain.vercel.app/api/auth/callback/google`
+Fügen Sie in der Google Cloud Console hinzu:
+- **Authorized JavaScript origins**: `https://your-domain.com`
+- **Authorized redirect URIs**: `https://your-domain.com/api/auth/callback/google`
 
-## Scripts
+## 🔐 Sicherheitsfeatures
 
-- `npm run dev` - Startet den Entwicklungsserver mit Turbopack
-- `npm run build` - Baut die Anwendung für Produktion
-- `npm run start` - Startet den Produktionsserver
-- `npm run lint` - Führt ESLint aus
-- `npm run db:generate` - Generiert Prisma Client
-- `npm run db:push` - Pusht Schema zur Datenbank
-- `npm run db:migrate` - Erstellt und führt Migrationen aus
-- `npm run db:studio` - Öffnet Prisma Studio
+- **Single-User Zugriff**: Nur die in `ALLOWED_USER_EMAIL` angegebene E-Mail kann sich anmelden
+- **JWT Sessions**: Sichere, verschlüsselte Token-basierte Sessions
+- **Protected Routes**: Dashboard ist nur für authentifizierte User zugänglich
+- **CSRF Protection**: Eingebaut in NextAuth.js
+- **Secure Cookies**: HTTP-only, Secure, SameSite Cookies
 
-## Projekt-Struktur
+## 🎨 Farbschema anpassen
+
+Passen Sie die Farben in `app/globals.css` an:
+
+```css
+@theme {
+  --color-primary: #001f3f;    /* Ihre Primärfarbe */
+  --color-secondary: #FFD700;  /* Ihre Sekundärfarbe */
+  /* ... weitere Farbvarianten */
+}
+```
+
+## 📁 Projekt-Struktur
 
 ```
-sports/
+.
 ├── app/
-│   ├── api/
-│   │   └── auth/[...nextauth]/
-│   │       └── route.ts          # NextAuth API Route
-│   ├── auth/
-│   │   └── error/
-│   │       └── page.tsx           # Auth Error Seite
-│   ├── dashboard/
-│   │   └── page.tsx               # Dashboard (geschützt)
-│   ├── globals.css                # Globale Styles
+│   ├── api/auth/[...nextauth]/   # NextAuth API Route
+│   ├── auth/error/                # Auth Error Page
+│   ├── dashboard/                 # Geschütztes Dashboard
+│   ├── globals.css                # Tailwind & Theme
 │   ├── layout.tsx                 # Root Layout
-│   └── page.tsx                   # Homepage
+│   └── page.tsx                   # Homepage mit Login
 ├── components/
-│   └── Header.tsx                 # Header Komponente
+│   ├── Header.tsx                 # App Header
+│   └── SignInButton.tsx           # Google Sign-In Button
 ├── lib/
-│   └── db.ts                      # Prisma Client mit Neon Adapter
+│   └── db.ts                      # Prisma Client
 ├── prisma/
 │   └── schema.prisma              # Datenbank Schema
 ├── auth.config.ts                 # NextAuth Konfiguration
 ├── auth.ts                        # NextAuth Setup
-├── middleware.ts                  # Next.js Middleware für Auth
-├── tailwind.config.ts             # Tailwind Konfiguration
-└── next.config.ts                 # Next.js Konfiguration
+└── middleware.ts                  # Route Protection (optional)
 ```
 
-## Sicherheit
+## 🛠️ Verfügbare Scripts
 
-- Nur der in `ALLOWED_USER_EMAIL` angegebene User kann sich anmelden
-- Alle anderen Google-Konten werden abgelehnt
-- Session-basierte Authentifizierung mit JWT
-- Geschützte Routen durch Middleware
-- Sichere Umgebungsvariablen
+```bash
+npm run dev          # Entwicklungsserver mit Turbopack
+npm run build        # Production Build
+npm run start        # Production Server
+npm run lint         # ESLint
+npm run db:generate  # Prisma Client generieren
+npm run db:push      # Schema zur DB pushen
+npm run db:migrate   # Migrationen erstellen
+npm run db:studio    # Prisma Studio öffnen
+```
 
-## Technologie-Stack
+## 🔄 Von Template zu eigenem Projekt
 
-- **Framework**: Next.js 15
-- **Sprache**: TypeScript
-- **Styling**: Tailwind CSS
-- **Authentifizierung**: NextAuth.js v5
-- **Datenbank**: Neon Serverless Postgres
-- **ORM**: Prisma
-- **Deployment**: Vercel
-- **OAuth Provider**: Google
+1. **Projekt umbenennen**: Ändern Sie `name` in `package.json`
+2. **Farben anpassen**: Bearbeiten Sie `app/globals.css`
+3. **Logo/Branding**: Aktualisieren Sie `components/Header.tsx`
+4. **Dashboard**: Bauen Sie `app/dashboard/page.tsx` aus
+5. **Datenbank Schema**: Erweitern Sie `prisma/schema.prisma`
 
-## Lizenz
+## 📝 Wichtige Hinweise
+
+- **NextAuth.js v5** ist noch in Beta - für Produktion v4 erwägen
+- **Neon Free Tier** hat Limits - für hohen Traffic upgraden
+- **JWT Sessions** speichern keine User-Daten in DB (nutzen Sie Prisma Adapter für DB-Sessions)
+- **Single User Auth** ist für Admin-Panels gedacht - für Multi-User eine andere Strategie verwenden
+
+## 🐛 Troubleshooting
+
+### Login-Loop
+
+- Prüfen Sie, ob `NEXTAUTH_SECRET` gesetzt ist
+- Verifizieren Sie Google OAuth Redirect URIs
+- Checken Sie `ALLOWED_USER_EMAIL` auf Tippfehler
+
+### Datenbank-Fehler
+
+- Prüfen Sie `DATABASE_URL` Format
+- Stellen Sie sicher, dass die Datenbank erreichbar ist
+- Führen Sie `npm run db:push` aus
+
+### Build-Fehler
+
+- Löschen Sie `.next` Ordner und `node_modules`
+- Führen Sie `npm install` erneut aus
+- Prüfen Sie TypeScript Fehler mit `npm run lint`
+
+## 📚 Weitere Ressourcen
+
+- [Next.js Dokumentation](https://nextjs.org/docs)
+- [NextAuth.js Dokumentation](https://authjs.dev/)
+- [Neon Dokumentation](https://neon.tech/docs)
+- [Prisma Dokumentation](https://www.prisma.io/docs)
+- [Tailwind CSS Dokumentation](https://tailwindcss.com/docs)
+
+## 📄 Lizenz
 
 ISC
+
+---
+
+**Erstellt mit ❤️ und Claude Code**
