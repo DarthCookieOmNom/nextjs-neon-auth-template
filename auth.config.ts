@@ -33,12 +33,32 @@ export const authConfig = {
       // Zugriff verweigern für alle anderen
       return false;
     },
-    async redirect({ url, baseUrl }) {
-      // Nach dem Login zum Dashboard weiterleiten
-      if (url.includes('/api/auth/signin')) {
-        return `${baseUrl}/dashboard`;
+    async jwt({ token, user }) {
+      if (user) {
+        token.email = user.email;
+        token.name = user.name;
+        token.picture = user.image;
       }
-      return url.startsWith(baseUrl) ? url : baseUrl;
+      return token;
+    },
+    async session({ session, token }) {
+      if (token && session.user) {
+        session.user.email = token.email as string;
+        session.user.name = token.name as string;
+        session.user.image = token.picture as string;
+      }
+      return session;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log("Redirect callback:", { url, baseUrl });
+
+      // Nach erfolgreichem Login zum Dashboard
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+
+      // Standardmäßig zum Dashboard
+      return `${baseUrl}/dashboard`;
     },
   },
   pages: {
