@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
+import { SignInButton } from "@/components/SignInButton";
 
 export default async function Home() {
   const session = await auth();
@@ -24,12 +25,7 @@ export default async function Home() {
           Melden Sie sich an, um fortzufahren.
         </p>
         <div className="flex justify-center">
-          <a
-            href="/api/auth/signin/google"
-            className="bg-secondary hover:bg-secondary-600 text-primary-900 font-bold py-3 px-8 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            Mit Google anmelden
-          </a>
+          <SignInButton />
         </div>
       </div>
     </div>
