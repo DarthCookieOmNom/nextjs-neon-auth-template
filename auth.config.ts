@@ -9,28 +9,42 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async signIn({ user }) {
+    async signIn({ user, account, profile }) {
+      console.log("=== SIGN-IN CALLBACK START ===");
+      console.log("User object:", JSON.stringify(user, null, 2));
+      console.log("Account object:", JSON.stringify(account, null, 2));
+      console.log("Profile object:", JSON.stringify(profile, null, 2));
+
       const allowedEmail = process.env.ALLOWED_USER_EMAIL?.trim().toLowerCase();
+      console.log("Environment ALLOWED_USER_EMAIL:", {
+        exists: !!process.env.ALLOWED_USER_EMAIL,
+        raw: process.env.ALLOWED_USER_EMAIL,
+        processed: allowedEmail,
+      });
 
       if (!allowedEmail) {
-        console.error("ALLOWED_USER_EMAIL is not set");
+        console.error("❌ ALLOWED_USER_EMAIL is not set");
         return false;
       }
 
       const userEmail = user.email?.trim().toLowerCase();
 
-      console.log("Sign-in attempt:", {
+      console.log("Email comparison:", {
         userEmail,
         allowedEmail,
         match: userEmail === allowedEmail,
+        userEmailLength: userEmail?.length,
+        allowedEmailLength: allowedEmail?.length,
       });
 
       // Nur erlauben, wenn die E-Mail übereinstimmt (case-insensitive)
       if (userEmail === allowedEmail) {
+        console.log("✅ Sign-in ALLOWED");
         return true;
       }
 
       // Zugriff verweigern für alle anderen
+      console.log("❌ Sign-in DENIED - email mismatch");
       return false;
     },
     async jwt({ token, user }) {
