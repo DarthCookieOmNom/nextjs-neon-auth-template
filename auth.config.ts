@@ -10,7 +10,7 @@ export const authConfig = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log("=== SIGN-IN CALLBACK START ===");
+      console.log("\n\n=== SIGN-IN CALLBACK START ===");
       console.log("User object:", JSON.stringify(user, null, 2));
       console.log("Account object:", JSON.stringify(account, null, 2));
       console.log("Profile object:", JSON.stringify(profile, null, 2));
@@ -47,8 +47,10 @@ export const authConfig = {
       console.log("❌ Sign-in DENIED - email mismatch");
       return false;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
+      console.log("JWT callback called:", { trigger, hasUser: !!user, hasToken: !!token });
       if (user) {
+        console.log("JWT: Adding user to token:", user.email);
         token.email = user.email;
         token.name = user.name;
         token.picture = user.image;
@@ -56,10 +58,12 @@ export const authConfig = {
       return token;
     },
     async session({ session, token }) {
+      console.log("Session callback called:", { hasSession: !!session, hasToken: !!token });
       if (token && session.user) {
         session.user.email = token.email as string;
         session.user.name = token.name as string;
         session.user.image = token.picture as string;
+        console.log("Session populated with email:", session.user.email);
       }
       return session;
     },
